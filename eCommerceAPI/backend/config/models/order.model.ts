@@ -3,8 +3,8 @@ import User from './user.model';
 
 class Order extends Model {
     public orderId!: number;
-    public totalPrice!: number;
     public userId!:number;
+    public totalPrice!: number;
 
     static initModel(sequelize: Sequelize) {
         Order.init(
@@ -15,17 +15,17 @@ class Order extends Model {
                     primaryKey: true,
                     allowNull: false,
                 },
-                totalPrice:{
-                    type: DataTypes.NUMBER,
-                    allowNull: false,
-                },
                 userId:{
                     type: DataTypes.INTEGER,
                     allowNull: false,
                     references: {
                         model: User,
                         key: 'userId'
-                    }
+                    },
+                },
+                totalPrice:{
+                    type: DataTypes.NUMBER,
+                    allowNull: false,
                 }
             },
             {

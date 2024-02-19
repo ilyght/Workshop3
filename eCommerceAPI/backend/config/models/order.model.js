@@ -11,17 +11,17 @@ class Order extends sequelize_1.Model {
                 primaryKey: true,
                 allowNull: false,
             },
-            totalPrice: {
-                type: sequelize_1.DataTypes.NUMBER,
-                allowNull: false,
-            },
             userId: {
                 type: sequelize_1.DataTypes.INTEGER,
                 allowNull: false,
                 references: {
                     model: user_model_1.default,
                     key: 'userId'
-                }
+                },
+            },
+            totalPrice: {
+                type: sequelize_1.DataTypes.NUMBER,
+                allowNull: false,
             }
         }, {
             tableName: "Order",
