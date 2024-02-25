@@ -8,11 +8,15 @@ import Order from "../config/models/order.model";
 import ProductOrdered from "../config/models/productOrdered.model";
 import { Sequelize } from 'sequelize';
 
+var cors = require('cors')
+
 const app: Express = express();
 const PORT: string | 3000 = process.env.PORT || 3000;
 
 app.use(express.json());
-
+app.use(cors({
+    origin: 'http://localhost:4200'
+}));
 const sequelize = new Sequelize('ecommerce', 'postgres', 'Password1*', {
     host: 'localhost',
     dialect: 'postgres',

@@ -5,7 +5,7 @@ import productOrderedApi from '../api/productOrdered';
 import cartApi from '../api/cart';
 import {Express} from 'express';
 const setupRoutes = (app: Express): void => {
-    app.use('/products ', productApi);
+    app.use('/products', productApi);
     app.use('/cart', cartApi);
     app.use('/user', userApi);
     app.use('/orders', orderApi);

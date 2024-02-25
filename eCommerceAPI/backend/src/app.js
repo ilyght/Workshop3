@@ -17,9 +17,13 @@ const cart_model_1 = require("../config/models/cart.model");
 const order_model_1 = require("../config/models/order.model");
 const productOrdered_model_1 = require("../config/models/productOrdered.model");
 const sequelize_1 = require("sequelize");
+var cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:4200'
+}));
 const sequelize = new sequelize_1.Sequelize('ecommerce', 'postgres', 'Password1*', {
     host: 'localhost',
     dialect: 'postgres',

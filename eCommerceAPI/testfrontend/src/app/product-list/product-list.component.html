@@ -1,0 +1,19 @@
+<p>product-list works!</p>
+<!-- product-list.component.html -->
+<p>test </p>
+<div *ngIf="emptyProductList">
+  <p>Aucun produit n'est disponible pour le moment.</p>
+</div>
+
+<div *ngIf="!emptyProductList">
+  <ul>
+    <li *ngFor="let product of products">
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.productId }}</p>
+      <p>{{ product.description }}</p>
+      <p>Prix: {{ product.price }}</p>
+      <button (click)="productDetail(product.productId)">see product's details</button>
+    </li>
+  </ul>
+</div>
+
