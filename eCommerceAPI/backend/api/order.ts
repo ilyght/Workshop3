@@ -19,56 +19,57 @@ import Cart from "../config/models/cart.model";
 
 const router = Router();
 
-//récupère toutes les commandes
-router.get('', async (_req: Request, res: Response): Promise<void> => {
-    try {
-        const orders: Order[] = await Order.findAll();
-        res.status(HTTP_OK).send(orders);
-    } catch (error) {
-        res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
-    }
-});
-
 //recupère les infos d'une commande en fonction de l'id d'une order
-router.get('/:orderId', async (req: Request, res: Response) => {
+router.get('/:userId', async (req: Request, res: Response) => {
     try {
-        const order = await Order.findByPk(req.params.orderId);
-        const productsOrdered: ProductOrdered[] = await ProductOrdered.findAll({
-            where: {orderId: req.params.orderId}
-        });
-        const poIds = [];
-        for (let i = 0; i<productsOrdered.length; i++)
-        {
-            poIds.push(productsOrdered[i].productId);
-        }
-        const productsDetails: Product[] = await Product.findAll({
-            where: {productId: {
-                    [Op.in]: poIds
-                }}
-        });
-        const finalDetails = [];
-        for (let i = 0; i<productsOrdered.length; i++)
-        {
-            for(let j = 0; j<productsDetails.length; j++)
-            {
-                if(productsOrdered[i].productId==productsDetails[j].productId)
-                {
-                    const dict1 = {
-                        'id':productsDetails[j].productId,
-                        'name':productsDetails[j].name,
-                        'price':productsDetails[j].price,
-                        'quantity':productsOrdered[i].quantity
-                    };
-                    finalDetails.push(dict1);
+        const orders: Order[] = await Order.findAll(
+            {where: {userId: req.params.userId}}
+        );
+        //const productsOrdered: ProductOrdered[]=[];
+        const AllOrders = [];
+        for (let i = 0; i<orders.length; i++) {
+
+            const productsOrdered: ProductOrdered[] = await ProductOrdered.findAll({
+                where: {orderId: orders[i].orderId}
+            });
+
+            const poIds = [];
+            for (let i = 0; i < productsOrdered.length; i++) {
+                poIds.push(productsOrdered[i].productId);
+            }
+            const productsDetails: Product[] = await Product.findAll({
+                where: {
+                    productId: {
+                        [Op.in]: poIds
+                    }
+                }
+            });
+            const finalDetails = [];
+            for (let i = 0; i < productsOrdered.length; i++) {
+                for (let j = 0; j < productsDetails.length; j++) {
+                    if (productsOrdered[i].productId == productsDetails[j].productId) {
+                        const dict1 = {
+                            'id': productsDetails[j].productId,
+                            'name': productsDetails[j].name,
+                            'price': productsDetails[j].price,
+                            'quantity': productsOrdered[i].quantity
+                        };
+                        finalDetails.push(dict1);
+                    }
                 }
             }
+            const dictOrder = {
+                'orderId': orders[i].orderId,
+                'total price': orders[i].totalPrice,
+                'order detail': finalDetails
+            }
+            AllOrders.push(dictOrder);
         }
-        const dict = {
-            'orderId': order.orderId,
-            'total price': order.totalPrice,
-            'order detail': finalDetails
+        const dictAllOrders = {
+            'userId': req.params.userId,
+            'all orders': AllOrders
         }
-        res.status(HTTP_OK).send(dict);
+        res.status(HTTP_OK).send(dictAllOrders);
     } catch (error) {
         res.status(HTTP_INTERNAL_SERVER_ERROR).send({error: error.message});
     }

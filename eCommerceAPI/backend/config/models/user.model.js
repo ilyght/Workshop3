@@ -17,7 +17,7 @@ class User extends sequelize_1.Model {
             }
         }, {
             tableName: 'User',
-            sequelize: sequelize, // this bit is important
+            sequelize: sequelize,
             timestamps: false
         });
     }

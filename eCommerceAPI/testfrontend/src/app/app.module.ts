@@ -10,13 +10,17 @@ import {RouterLink} from "@angular/router";
 import {NgForOf, NgIf} from "@angular/common";
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { CartComponent } from './cart/cart.component';
+import { OrderComponent } from './order/order.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ProductListComponent,
-    ProductDetailComponent
+    ProductDetailComponent,
+    CartComponent,
+    OrderComponent
   ],
     imports: [
         BrowserModule,
